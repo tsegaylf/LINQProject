@@ -5,10 +5,33 @@ using CSharp2SqlLibrary;
 namespace LINQProject {
 
     class Program {
+
         void Run() {
 
-            var Connection = new Connection(@"localhost\\sqlexpress", "PrsDB");
+            var Connection = new Connection("localhost\\sqlexpress", "PrsDB");
+            Connection.Open();
+            Users.Connection = Connection;
 
+            var reviewer = from u in Users.GetAll()
+                           where u.IsReviewer
+                           select u;
+
+            //var admins = from u in Users.GetAll()
+            //             where u.IsAdmin
+            //             select u;
+            //foreach (var user in admins) {
+            //Console.WriteLine($"{user.FirstName} {user.LastName} is admin");
+
+            //var usr = from u in Users.GetAll()
+            //          where u.Username.StartsWith("ABC")
+            //          //where u.Username.Equals("John1234") // checking equality between strings 
+            //          select u;
+
+            foreach (var r in reviewer) {
+                Console.WriteLine($"{r}");
+            }
+
+            Connection.Close();
         }
 
         static void Main(string[] args) {
