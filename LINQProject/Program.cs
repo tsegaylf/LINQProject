@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CSharp2SqlLibrary;
+using LINQProject;
 
 namespace LINQProject {
 
@@ -10,11 +11,14 @@ namespace LINQProject {
 
             var Connection = new Connection("localhost\\sqlexpress", "PrsDB");
             Connection.Open();
-            Users.Connection = Connection;
+            //Users.Connection = Connection;
+            //Vendors.Connection = Connection;
+            Products.Connection = Connection;
 
-            var reviewer = from u in Users.GetAll()
-                           where u.IsReviewer
-                           select u;
+            #region Syntax Examples 
+            //var reviewer = from u in Users.GetAll()
+            //               where u.IsReviewer
+            //               select u;
 
             //var admins = from u in Users.GetAll()
             //             where u.IsAdmin
@@ -27,9 +31,29 @@ namespace LINQProject {
             //          //where u.Username.Equals("John1234") // checking equality between strings 
             //          select u;
 
-            foreach (var r in reviewer) {
-                Console.WriteLine($"{r}");
-            }
+            //var total = (from p in Products.GetAll()
+            //             select p).Sum(u => u.Price);
+
+            //Console.WriteLine($"The total of all is {total}");
+
+
+            //var products = from p in Products.GetAll()
+            //               join v in Vendors.GetAll()
+            //               on p.VendorID equals v.ID
+            //               select new {
+            //                   Product = p.Name,
+            //                   Vendor = v.Name,
+            //                   Price = p.Price
+            //               };
+            //foreach (var p in products) {
+            //    Console.WriteLine($"{p.Product} is priced at {p.Price} from {p.Vendor}");
+            //}
+
+            #endregion
+
+
+            var products = Products.GetAll();
+            products.Print();
 
             Connection.Close();
         }
